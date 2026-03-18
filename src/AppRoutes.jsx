@@ -18,12 +18,10 @@ const AppRoutes = () => {
           <Route path="/" element={<Navigate to="/admin/users" replace />} />
 
           {/* Admin routes */}
-          <Route >
-
+         <Route>
               <Route path="users" element={<UsersList />} />
               <Route index element={<Navigate to="users" replace />} />
-            </Route>
-
+          </Route>
         </Routes>
       </Suspense>
     </Router>

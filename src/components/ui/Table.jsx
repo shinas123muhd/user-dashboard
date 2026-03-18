@@ -73,5 +73,4 @@ const Table = memo(({ columns, data, onRowClick, isLoading }) => {
   );
 });
 
-Table.displayName = 'Table';
 export default Table;

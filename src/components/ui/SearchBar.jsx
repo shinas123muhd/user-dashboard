@@ -1,13 +1,15 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { useDebounce } from '../../utils/useDebounce';
 
-const SearchBar = memo(({ onSearch, placeholder = 'Search...', debounceDelay = 500 }) => {
+const SearchBar = ({ onSearch, placeholder = 'Search...', debounceDelay = 500 }) => {
   const [value, setValue] = useState('');
   const debouncedValue = useDebounce(value, debounceDelay);
 
   useEffect(() => {
-    if (onSearch) onSearch(debouncedValue);
+    if (onSearch){
+      onSearch(debouncedValue);
+    }
   }, [debouncedValue, onSearch]);
 
   return (
@@ -24,7 +26,6 @@ const SearchBar = memo(({ onSearch, placeholder = 'Search...', debounceDelay = 5
       />
     </div>
   );
-});
+};
 
-SearchBar.displayName = 'SearchBar';
 export default SearchBar;

@@ -8,7 +8,6 @@ const apiClient = axios.create({
   },
 });
 
-// Response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => response.data,
   (error) => {

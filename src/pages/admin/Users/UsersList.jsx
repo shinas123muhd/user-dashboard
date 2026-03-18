@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useUsersQuery } from '../../../api/hooks/useUsers';
+import { useInfiniteUsersQuery } from '../../../api/hooks/useUsers';
 import Table from '../../../components/ui/Table';
-import Pagination from '../../../components/ui/Pagination';
 import SearchBar from '../../../components/ui/SearchBar';
 import SlideOver from '../../../components/ui/SlideOver';
 import UserDetails from './UserDetails';
@@ -10,26 +9,24 @@ import { User } from 'lucide-react';
 const LIMIT = 30;
 
 const UsersList = () => {
-  const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const skip = (page - 1) * LIMIT;
+  const { 
+    data, 
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useInfiniteUsersQuery({ limit: LIMIT, search });
 
-  const { data, isLoading } = useUsersQuery({ limit: LIMIT, skip, search });
-
-  const totalPages = data?.total ? Math.ceil(data.total / LIMIT) : 0;
-  const users = data?.users || [];
+  const users = useMemo(() => {
+    if (!data?.pages) return [];
+    return data.pages.flatMap(page => page.users || []);
+  }, [data]);
 
   const handleSearch = useCallback((term) => {
-    setSearch((prevTerm) => {
-      // Only reset to page 1 if the search actually changed
-      if (prevTerm !== term) {
-        setPage(1);
-        return term;
-      }
-      return prevTerm;
-    });
+    setSearch(term);
   }, []);
 
   const handleRowClick = useCallback((row) => {
@@ -76,6 +73,8 @@ const UsersList = () => {
     }
   ], []);
 
+  // throw new Error("This is a test error to check the boundary!");
+
   return (
     <div className="w-full h-full p-4 sm:p-6 lg:p-8 bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -96,11 +95,17 @@ const UsersList = () => {
             isLoading={isLoading} 
             onRowClick={handleRowClick} 
           />
-          <Pagination 
-            currentPage={page} 
-            totalPages={totalPages} 
-            onPageChange={setPage} 
-          />
+          {hasNextPage && (
+            <div className="flex justify-center p-4 border-t border-slate-200">
+              <button
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 border border-transparent rounded-md hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors"
+              >
+                {isFetchingNextPage ? 'Loading more...' : 'Load More Users'}
+              </button>
+            </div>
+          )}
         </div>
 
         <SlideOver 

@@ -8,12 +8,10 @@ class GlobalErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI
     return { hasError: true, error };
   }
 
   componentDidCatch(error, errorInfo) {
-    // We can potentially log to a service like Sentry or Datadog here
     console.error("Uncaught application error:", error, errorInfo);
   }
 
@@ -36,13 +34,6 @@ class GlobalErrorBoundary extends React.Component {
               </div>
             )}
 
-            <button
-              onClick={() => window.location.reload()}
-              className="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
-            >
-              <RefreshCcw className="mr-2 h-4 w-4" />
-              Refresh Page
-            </button>
           </div>
         </div>
       );

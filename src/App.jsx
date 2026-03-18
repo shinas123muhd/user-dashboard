@@ -4,7 +4,7 @@ import {
 } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast';
 import AppRoutes from './AppRoutes';
-import GlobalErrorBoundary from './components/ui/GlobalErrorBoundary';
+import GlobalErrorBoundary from './components/GlobalErrorBoundary';
 
 function App() {
 
