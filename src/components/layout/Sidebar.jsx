@@ -46,12 +46,6 @@ const Sidebar = () => {
         </nav>
       </div>
 
-      <div className="shrink-0 border-t border-slate-800 p-4">
-        <button className="group flex w-full items-center px-3 py-2.5 text-sm font-medium text-slate-400 rounded-lg hover:bg-slate-800/50 hover:text-red-400 transition-colors duration-200">
-          <LogOut className="mr-3 h-5 w-5 text-slate-500 group-hover:text-red-400 transition-colors duration-200" aria-hidden="true" />
-          Log out
-        </button>
-      </div>
     </div>
   );
 };
